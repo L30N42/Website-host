@@ -230,10 +230,11 @@
       
       <div>
         <div class="flex items-center gap-4 mb-1">
-          <i class="fa-solid fa-mosque text-4xl 2xl:text-5xl text-masjid-gold animate-pulse-icon"></i>
-          <div>
-            <h1 id="disp-mosque-name" class="font-display text-3xl 2xl:text-4xl font-black tracking-widest uppercase text-white drop-shadow-md leading-none">MUSHOLA AL-MUHAJIRIN</h1>
-            <p id="disp-mosque-address" class="text-blue-200 text-xs 2xl:text-sm mt-1">Jl. Pembangunan No.6, Jemb. Kecil, Kec. Singaran Pati, Kota Bengkulu, Bengkulu 38224</p>
+          <i class="fa-solid fa-mosque text-3xl sm:text-4xl 2xl:text-5xl text-masjid-gold animate-pulse-icon shrink-0"></i>
+          <div class="min-w-0">
+            <!-- Penyesuaian font dan whitespace agar judul tetap sejajar di Smart TV -->
+            <h1 id="disp-mosque-name" class="font-display text-xl sm:text-2xl lg:text-3xl 2xl:text-4xl font-black tracking-wider uppercase text-white drop-shadow-md leading-none whitespace-nowrap overflow-hidden text-ellipsis">MUSHOLA AL-MUHAJIRIN</h1>
+            <p id="disp-mosque-address" class="text-blue-200 text-xs 2xl:text-sm mt-1 truncate">Jl. Pembangunan No.6, Jemb. Kecil, Kec. Singaran Pati, Kota Bengkulu, Bengkulu 38224</p>
           </div>
         </div>
         <div class="flex items-center gap-3 text-sm font-bold mt-2">
@@ -528,24 +529,29 @@
       const monthName = months[now.getMonth()];
       const year = now.getFullYear();
 
-      let hijriString = "14 Rabiulakhir 1448 H"; 
+      let hijriString = ""; 
       
       try {
-        // Array nama bulan Hijriah manual agar tidak crash/salah baca di Smart TV
         const bulanHijriah = [
           'Muharram', 'Safar', 'Rabiulawal', 'Rabiulakhir',
           'Jumadilawal', 'Jumadilakhir', 'Rajab', 'Sya\'ban',
           'Ramadhan', 'Syawal', 'Zulkaidah', 'Zulhijah'
         ];
 
-        // Minta format bulan berbentuk angka ('numeric') agar kompatibel dengan seluruh TV
+        // Pengaturan Offset Tanggal Hijriah
+        // Nilai 0 digunakan agar sinkron dengan perhitungan kalender standar (14 Rabiulakhir)
+        // Ubah ke -1 atau +1 jika ingin mengoreksi jika tanggal di TV berbeda 1 hari
+        const hijriOffset = 0; 
+        const hijriDate = new Date(now);
+        hijriDate.setDate(hijriDate.getDate() + hijriOffset);
+
         const formatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic', { 
           day: 'numeric', 
           month: 'numeric', 
           year: 'numeric' 
         });
         
-        const parts = formatter.formatToParts(now);
+        const parts = formatter.formatToParts(hijriDate);
         let hDay = parts.find(p => p.type === 'day')?.value;
         let hMonthIdx = parseInt(parts.find(p => p.type === 'month')?.value, 10) - 1;
         let hYear = parts.find(p => p.type === 'year')?.value;
@@ -555,6 +561,7 @@
         }
       } catch (err) {
         console.warn("Gagal konversi Hijriah bawaan TV, menggunakan fallback.");
+        hijriString = "14 Rabiulakhir 1448 H";
       }
 
       document.getElementById('disp-date-full').innerText = `${dayName}, ${dayNum} ${monthName} ${year} | ${hijriString}`;
