@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Display Mushola Al-Muhajirin - TV Signage</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'masjid-gold': '#ffc82c',
+            'masjid-dark': '#0d223f'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; user-select: none; }
+    
+    html, body {
+      width: 100%; height: 100%;
+      margin: 0; padding: 0;
+      overflow: hidden;
+      position: fixed;
+      inset: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 75% 25%, #0e274d 0%, #061124 60%, #020712 100%);
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+    }
+
+    /* Animasi Mandala */
+    .mandala-container {
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23ffffff' stroke-width='1.5' opacity='0.5'%3E%3Cpath d='M60 0 v120 M0 60 h120 M18 18 l84 84 M102 18 l-84 84' /%3E%3Crect x='30' y='30' width='60' height='60' transform='rotate(45 60 60)' /%3E%3Crect x='30' y='30' width='60' height='60' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.035;
+      animation: rotate-mandala 180s linear infinite;
+      z-index: 0;
+    }
+    @keyframes rotate-mandala {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Bintang Berkelap-kelip */
+    .star {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite alternate;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.1; transform: scale(0.4); }
+      100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 12px rgba(255,255,255,1); }
+    }
+
+    /* Ambient Moon Pulse */
+    .crescent-moon {
+      position: absolute;
+      top: 45px;
+      left: 45%;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: -15px 12px 0 2px #fff8db;
+      opacity: 0.9;
+      z-index: 1;
+      animation: glow-pulse-moon 3.5s ease-in-out infinite alternate;
+    }
+    @keyframes glow-pulse-moon {
+      0% { filter: drop-shadow(0 0 10px rgba(255, 248, 219, 0.3)); transform: rotate(-25deg) scale(1); }
+      100% { filter: drop-shadow(0 0 30px rgba(255, 248, 219, 0.8)); transform: rotate(-25deg) scale(1.03); }
+    }
+
+    /* Lentera Artistik */
+    .lantern {
+      position: absolute;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      z-index: 1;
+      animation: swing var(--swing-dur) ease-in-out infinite alternate;
+    }
+    .lantern-chain {
+      width: 2px;
+      background: linear-gradient(to bottom, #d4af37, #aa8010);
+    }
+    .lantern-cap {
+      background: linear-gradient(to right, #aa8010, #ffdf00, #aa8010);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+      border-radius: 2px 2px 0 0;
+    }
+    .lantern-glass {
+      background: rgba(255, 215, 0, 0.15);
+      border-left: 2px solid #d4af37;
+      border-right: 2px solid #d4af37;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: lantern-glow var(--glow-dur) ease-in-out infinite alternate;
+    }
+    .lantern-flame {
+      width: 12px;
+      height: 18px;
+      background: radial-gradient(ellipse at bottom, #fff 10%, #ffc82c 50%, transparent 80%);
+      border-radius: 50% 50% 20% 20%;
+      animation: flicker 0.6s infinite alternate;
+      filter: drop-shadow(0 0 8px #ffc82c);
+    }
+    .lantern-base {
+      background: linear-gradient(to right, #aa8010, #ffdf00, #aa8010);
+      clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+      border-radius: 0 0 2px 2px;
+      border-top: 2px solid #8a6a0b;
+    }
+
+    @keyframes swing {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(3deg); }
+    }
+    @keyframes lantern-glow {
+      0% { box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.2), 0 0 15px rgba(255, 215, 0, 0.4); }
+      100% { box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.5), 0 0 45px rgba(255, 215, 0, 0.95); }
+    }
+    @keyframes flicker {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      100% { transform: scale(1.05); opacity: 1; }
+    }
+
+    .lantern-1 { left: 54%; --swing-dur: 4.8s; --glow-dur: 2.3s; }
+    .lantern-1 .lantern-chain { height: 60px; }
+    .lantern-1 .lantern-cap { width: 28px; height: 14px; }
+    .lantern-1 .lantern-glass { width: 36px; height: 45px; clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%); }
+    .lantern-1 .lantern-base { width: 34px; height: 12px; }
+
+    .lantern-2 { left: 74%; --swing-dur: 3.8s; --glow-dur: 2.7s; }
+    .lantern-2 .lantern-chain { height: 90px; }
+    .lantern-2 .lantern-cap { width: 36px; height: 18px; }
+    .lantern-2 .lantern-glass { width: 44px; height: 55px; clip-path: polygon(15% 0, 85% 0, 100% 100%, 0 100%); }
+    .lantern-2 .lantern-base { width: 42px; height: 14px; }
+
+    /* Animasi Pendaran Ikon Masjid */
+    .animate-pulse-icon {
+      animation: pulse-icon 2s ease-in-out infinite alternate;
+    }
+    @keyframes pulse-icon {
+      0% { filter: drop-shadow(0 0 8px rgba(255, 200, 44, 0.5)); transform: scale(1); }
+      100% { filter: drop-shadow(0 0 25px rgba(255, 200, 44, 1)); transform: scale(1.08); }
+    }
+
+    /* Marquee */
+    .marquee-container {
+      overflow: hidden; white-space: nowrap;
+    }
+    .marquee-content {
+      display: inline-block; white-space: nowrap;
+      padding-left: 100%;
+      animation: marquee-anim 28s linear infinite;
+    }
+    @keyframes marquee-anim {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-100%, 0, 0); }
+    }
+
+    .glass-card {
+      background: rgba(13, 31, 60, 0.4);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #051329; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #28446b; border-radius: 4px; }
+  </style>
+</head>
+<body class="flex flex-col justify-between relative">
+
+  <div class="mandala-container pointer-events-none"></div>
+  <div id="stars-container" class="absolute inset-0 pointer-events-none z-0"></div>
+  <div class="crescent-moon pointer-events-none"></div>
+  
+  <div class="lantern lantern-1 pointer-events-none">
+    <div class="lantern-chain"></div><div class="lantern-cap"></div>
+    <div class="lantern-glass"><div class="lantern-flame"></div></div>
+    <div class="lantern-base"></div>
+  </div>
+  <div class="lantern lantern-2 pointer-events-none">
+    <div class="lantern-chain"></div><div class="lantern-cap"></div>
+    <div class="lantern-glass"><div class="lantern-flame"></div></div>
+    <div class="lantern-base"></div>
+  </div>
+
+  <div class="absolute top-4 right-4 z-50 flex items-center gap-2 opacity-30 hover:opacity-100 transition-opacity">
+    <button onclick="openSettingsModal()" class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 transition text-sm flex items-center gap-2">
+      <i class="fa-solid fa-gear"></i> Settings
+    </button>
+  </div>
+
+  <main class="relative z-10 flex-1 grid grid-cols-12 gap-4 px-6 pt-4 pb-2 w-full min-h-0">
+    
+    <!-- LEFT PANEL -->
+    <div class="col-span-7 flex flex-col justify-between h-full min-h-0">
+      
+      <div>
+        <div class="flex items-center gap-4 mb-1">
+          <i class="fa-solid fa-mosque text-4xl 2xl:text-5xl text-masjid-gold animate-pulse-icon"></i>
+          <div>
+            <h1 id="disp-mosque-name" class="font-display text-3xl 2xl:text-4xl font-black tracking-widest uppercase text-white drop-shadow-md leading-none">MUSHOLA AL-MUHAJIRIN</h1>
+            <p id="disp-mosque-address" class="text-blue-200 text-xs 2xl:text-sm mt-1">Jl. Pembangunan No.6, Jemb. Kecil, Kec. Singaran Pati, Kota Bengkulu, Bengkulu 38224</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 text-sm font-bold mt-2">
+          <span id="disp-date-full" class="text-masjid-gold drop-shadow-sm">--</span>
+          <span class="text-blue-300 flex items-center gap-1.5"><i class="fa-solid fa-cloud-sun"></i> 29°C Cerah</span>
+        </div>
+      </div>
+
+      <div class="my-auto">
+        <div id="main-digital-clock" class="font-display text-[5.5rem] 2xl:text-[7.5rem] leading-none tracking-widest text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.35)]">
+          00:00:00
+        </div>
+        <div id="countdown-label" class="text-masjid-gold text-xl 2xl:text-2xl font-bold tracking-widest uppercase mt-2 drop-shadow-md">
+          MEMUAT WAKTU SHOLAT...
+        </div>
+      </div>
+
+      <div class="space-y-2 2xl:space-y-3">
+        
+        <!-- Area Badge Imam (Tampil Permanen Harian) -->
+        <div class="flex flex-col gap-1.5 2xl:gap-2">
+          <!-- Badge Imam Dzuhur -->
+          <div class="inline-flex items-center w-fit bg-[#0a1b34]/85 border border-white/10 rounded-lg px-4 py-1.5 2xl:px-5 2xl:py-2 text-white font-medium text-xs 2xl:text-sm backdrop-blur-sm shadow-[0_0_15px_rgba(255,200,44,0.15)]">
+            <i class="fa-solid fa-user-tie mr-2 text-masjid-gold"></i> 
+            <span id="disp-imam-dzuhur">IMAM DZUHUR: Memuat...</span>
+          </div>
+          <!-- Badge Imam Ashar (dan Hadits jika ada) -->
+          <div class="inline-flex items-center w-fit bg-[#0a1b34]/85 border border-white/10 rounded-lg px-4 py-1.5 2xl:px-5 2xl:py-2 text-white font-medium text-xs 2xl:text-sm backdrop-blur-sm shadow-[0_0_15px_rgba(255,200,44,0.15)]">
+            <i class="fa-solid fa-user-tie mr-2 text-masjid-gold"></i> 
+            <span id="disp-imam-ashar">IMAM ASHAR: Memuat...</span>
+          </div>
+        </div>
+
+        <!-- Agenda Card -->
+        <div class="glass-card rounded-xl p-3 2xl:p-4 max-w-lg shadow-lg relative overflow-hidden">
+          <div class="absolute left-0 top-0 bottom-0 w-1 bg-masjid-gold"></div>
+          <div id="disp-event-title" class="font-bold text-sm 2xl:text-base text-white mb-1.5 uppercase drop-shadow-sm">AGENDA KEGIATAN MUSHOLA AL-MUHAJIRIN</div>
+          <div class="flex items-center gap-4 2xl:gap-6 text-xs 2xl:text-sm text-masjid-gold font-medium">
+            <span class="flex items-center gap-2"><i class="fa-regular fa-clock text-blue-200"></i> <span id="disp-event-time">Kajian Ba'Da Ashar</span></span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-microphone text-blue-200"></i> <span id="disp-event-speaker">Ust. Rosyid Marzuki</span></span>
+          </div>
+        </div>
+
+        <div class="inline-flex items-center gap-3 bg-[#08162c]/80 border border-white/10 rounded-lg px-3 py-1.5 2xl:px-4 2xl:py-2 text-blue-100 font-bold tracking-wide text-xs 2xl:text-sm backdrop-blur-md">
+          <i class="fa-solid fa-moon text-masjid-gold animate-pulse"></i>
+          <span id="ramadhan-countdown-text">... HARI MENUJU BULAN RAMADHAN 1448 H</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL (Prayer Times) -->
+    <div class="col-span-5 flex flex-col justify-evenly h-full pl-4 2xl:pl-6 pb-2">
+      <div id="item-imsak" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-solid fa-moon text-blue-300 w-6 text-center"></i> Imsak</div>
+        <div id="time-imsak" class="font-display text-2xl 2xl:text-3xl font-black text-white">04:36</div>
+      </div>
+      <div id="item-subuh" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-solid fa-sun text-blue-300 w-6 text-center"></i> Subuh</div>
+        <div id="time-subuh" class="font-display text-2xl 2xl:text-3xl font-black text-white">04:46</div>
+      </div>
+      <div id="item-syuruk" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-regular fa-sun text-blue-300 w-6 text-center"></i> Syuruq</div>
+        <div id="time-syuruk" class="font-display text-2xl 2xl:text-3xl font-black text-white">05:57</div>
+      </div>
+      <div id="item-dzuhur" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-solid fa-sun text-blue-300 w-6 text-center"></i> Dzuhur</div>
+        <div id="time-dzuhur" class="font-display text-2xl 2xl:text-3xl font-black text-white">12:07</div>
+      </div>
+      <div id="item-ashar" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-solid fa-cloud-sun text-blue-300 w-6 text-center"></i> Ashar</div>
+        <div id="time-ashar" class="font-display text-2xl 2xl:text-3xl font-black text-white">15:10</div>
+      </div>
+      <div id="item-maghrib" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-solid fa-cloud-moon text-blue-300 w-6 text-center"></i> Maghrib</div>
+        <div id="time-maghrib" class="font-display text-2xl 2xl:text-3xl font-black text-white">18:10</div>
+      </div>
+      <div id="item-isya" class="flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all backdrop-blur-sm">
+        <div class="flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white"><i class="fa-solid fa-star-and-crescent text-blue-300 w-6 text-center"></i> Isya</div>
+        <div id="time-isya" class="font-display text-2xl 2xl:text-3xl font-black text-white">19:18</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER MARQUEE -->
+  <footer class="relative z-20 flex items-stretch h-10 2xl:h-12 bg-[#030812] border-t-[3px] border-masjid-gold shrink-0">
+    <div class="flex items-center px-4 2xl:px-6 bg-masjid-gold text-black font-black text-sm 2xl:text-base tracking-wider flex-shrink-0" style="clip-path: polygon(0 0, 92% 0, 100% 100%, 0% 100%); padding-right: 30px;">
+      <i class="fa-solid fa-bullhorn mr-2"></i> INFO DKM
+    </div>
+    <div class="flex-1 marquee-container flex items-center bg-transparent">
+      <div id="disp-marquee-text" class="marquee-content font-bold tracking-wide text-white text-sm 2xl:text-base uppercase">
+        SHOLAT KARENA ALLAH SWT. | MARI MENJAGA KEBERSIHAN, KETERTIBAN, DAN KETENTRAMAN DI SEKITAR LINGKUNGAN MUSHOLA | RAPATKAN DAN LURUSKAN SHAF.
+      </div>
+    </div>
+  </footer>
+
+  <!-- SETTINGS MODAL -->
+  <div id="settings-modal" class="fixed inset-0 z-[100] bg-black/85 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-masjid-dark border border-masjid-gold rounded-xl w-full max-w-2xl p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="text-xl font-bold text-masjid-gold">Pengaturan Signage</h3>
+        <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
+      </div>
+
+      <div class="space-y-4 max-h-[65vh] overflow-y-auto pr-2">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-blue-200 mb-1">ID Kota Kemenag</label>
+            <select id="input-city-id" class="w-full bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white focus:outline-none focus:border-masjid-gold">
+              <option value="0401">KOTA BENGKULU</option>
+              <option value="1301">KOTA JAKARTA PUSAT</option>
+              <option value="1203">KOTA BANDUNG</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-blue-200 mb-1">Nama Mushola</label>
+            <input id="input-mosque-name" type="text" class="w-full bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm text-blue-200 mb-1">Alamat Mushola</label>
+          <input id="input-mosque-address" type="text" class="w-full bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white">
+        </div>
+        
+        <!-- PENGATURAN JADWAL IMAM & HADITS BERBASIS TANGGAL -->
+        <div class="p-4 bg-[#06152a] border border-[#28446b] rounded-lg">
+          <div class="flex justify-between items-center mb-3">
+            <label class="block text-sm text-masjid-gold font-bold"><i class="fa-solid fa-calendar-days mr-1"></i> Jadwal Harian (Dzuhur & Ashar)</label>
+            <button onclick="addImamRow()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded text-xs text-white font-medium transition"><i class="fa-solid fa-plus mr-1"></i> Tambah Jadwal</button>
+          </div>
+
+          <!-- Container Baris Jadwal -->
+          <div id="imam-schedule-container" class="max-h-[30vh] overflow-y-auto pr-2">
+             <!-- Baris jadwal akan di-generate oleh Javascript disini -->
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm text-blue-200 mb-1">Judul Agenda</label>
+          <input id="input-event-title" type="text" class="w-full bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white mb-2">
+          <div class="grid grid-cols-2 gap-2">
+            <input id="input-event-time" type="text" placeholder="Waktu / Topik" class="bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white">
+            <input id="input-event-speaker" type="text" placeholder="Penceramah" class="bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm text-blue-200 mb-1">Teks Berjalan (Running Text)</label>
+          <textarea id="input-marquee" rows="3" class="w-full bg-[#051329] border border-[#28446b] rounded-md px-3 py-2 text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#28446b]">
+        <button onclick="closeSettingsModal()" class="px-5 py-2 rounded-md bg-gray-600 text-white font-medium hover:bg-gray-500 transition">Batal</button>
+        <button onclick="saveSettings()" class="px-5 py-2 rounded-md bg-masjid-gold text-black font-bold hover:bg-yellow-400 transition">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      const starCount = 80;
+      for (let i = 0; i < starCount; i++) {
+        let star = document.createElement('div');
+        star.className = 'star';
+        let size = Math.random() * 3.5;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.setProperty('--duration', `${(Math.random() * 3) + 1.5}s`);
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(star);
+      }
+    }
+
+    const appConfig = {
+      cityId: "0401", 
+      mosqueName: "MUSHOLA AL-MUHAJIRIN",
+      address: "Jl. Pembangunan No.6, Jemb. Kecil, Kec. Singaran Pati, Kota Bengkulu, Bengkulu 38224",
+      imamSchedules: [],
+      eventTitle: "AGENDA KEGIATAN MUSHOLA AL-MUHAJIRIN",
+      eventTime: "Kajian Ba'Da Ashar",
+      eventSpeaker: "Ust. Rosyid Marzuki",
+      marqueeText: "SHOLAT KARENA ALLAH SWT. | MARI MENJAGA KEBERSIHAN, KETERTIBAN, DAN KETENTRAMAN DI SEKITAR LINGKUNGAN MUSHOLA | RAPATKAN DAN LURUSKAN SHAF.",
+      prayerTimes: {
+        imsak: "04:36", subuh: "04:46", syuruk: "05:57",
+        dzuhur: "12:07", ashar: "15:10", maghrib: "18:10", isya: "19:18"
+      }
+    };
+
+    function loadSavedConfig() {
+      const saved = localStorage.getItem('mosque_config_v8');
+      if (saved) {
+        try { Object.assign(appConfig, JSON.parse(saved)); } catch (e) {}
+      }
+      renderDOMConfig();
+    }
+
+    function renderDOMConfig() {
+      document.getElementById('disp-mosque-name').innerText = appConfig.mosqueName;
+      document.getElementById('disp-mosque-address').innerText = appConfig.address;
+      document.getElementById('disp-event-title').innerText = appConfig.eventTitle;
+      document.getElementById('disp-event-time').innerText = appConfig.eventTime;
+      document.getElementById('disp-event-speaker').innerText = appConfig.eventSpeaker;
+      document.getElementById('disp-marquee-text').innerText = appConfig.marqueeText;
+      
+      for (let key in appConfig.prayerTimes) {
+        let el = document.getElementById(`time-${key}`);
+        if(el) el.innerText = appConfig.prayerTimes[key];
+      }
+    }
+
+    function addImamRow(date = '', d_imam = '', a_imam = '', a_hadits = '') {
+      const container = document.getElementById('imam-schedule-container');
+      const div = document.createElement('div');
+      div.className = 'bg-[#0a1b34] p-3 rounded-md border border-[#1e3454] imam-row relative mb-3';
+      
+      div.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-regular fa-calendar text-masjid-gold"></i>
+            <input type="date" value="${date}" class="bg-[#051329] border border-[#28446b] rounded px-2 py-1.5 text-white text-xs w-[130px] focus:outline-none focus:border-masjid-gold input-imam-date">
+          </div>
+          <button onclick="this.parentElement.parentElement.remove()" class="text-red-400 hover:text-red-300 transition" title="Hapus Jadwal Ini"><i class="fa-solid fa-trash"></i> Hapus</button>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5 p-2 bg-[#051329]/50 rounded border border-white/5 flex flex-col justify-center">
+            <div class="text-[10px] text-masjid-gold uppercase font-bold text-center">Waktu Dzuhur</div>
+            <input type="text" placeholder="Nama Imam Dzuhur" value="${d_imam}" class="w-full bg-[#051329] border border-[#28446b] rounded px-2 py-1 text-white text-xs focus:outline-none focus:border-masjid-gold input-imam-dzuhur">
+          </div>
+          <div class="space-y-1.5 p-2 bg-[#051329]/50 rounded border border-white/5">
+            <div class="text-[10px] text-masjid-gold uppercase font-bold text-center">Waktu Ashar</div>
+            <input type="text" placeholder="Nama Imam Ashar" value="${a_imam}" class="w-full bg-[#051329] border border-[#28446b] rounded px-2 py-1 text-white text-xs focus:outline-none focus:border-masjid-gold input-imam-ashar">
+            <input type="text" placeholder="Pembaca Hadits Ashar" value="${a_hadits}" class="w-full bg-[#051329] border border-[#28446b] rounded px-2 py-1 text-white text-xs focus:outline-none focus:border-masjid-gold input-hadits-ashar">
+          </div>
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    function renderImamSettings() {
+      const container = document.getElementById('imam-schedule-container');
+      container.innerHTML = ''; 
+      
+      if (!appConfig.imamSchedules || appConfig.imamSchedules.length === 0) {
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const d = String(today.getDate()).padStart(2, '0');
+        addImamRow(`${y}-${m}-${d}`);
+      } else {
+        appConfig.imamSchedules.forEach(schedule => {
+          addImamRow(schedule.date, schedule.dzuhur, schedule.ashar, schedule.haditsAshar || '');
+        });
+      }
+    }
+
+    async function fetchMyQuranAPI(cityId) {
+      try {
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const d = String(today.getDate()).padStart(2, '0');
+
+        const response = await fetch(`https://api.myquran.com/v2/sholat/jadwal/${cityId}/${y}/${m}/${d}`);
+        const result = await response.json();
+
+        if (result.status && result.data && result.data.jadwal) {
+          const j = result.data.jadwal;
+          appConfig.prayerTimes = {
+            imsak: j.imsak, subuh: j.subuh, syuruk: j.terbit,
+            dzuhur: j.dzuhur, ashar: j.ashar, maghrib: j.maghrib, isya: j.isya
+          };
+          for (let key in appConfig.prayerTimes) {
+            let el = document.getElementById(`time-${key}`);
+            if (el) el.innerText = appConfig.prayerTimes[key];
+          }
+        }
+      } catch (err) {
+        console.warn("API offline");
+      }
+    }
+
+    function updateDateDisplay(now) {
+      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      
+      const dayName = days[now.getDay()];
+      const dayNum = now.getDate();
+      const monthName = months[now.getMonth()];
+      const year = now.getFullYear();
+
+      let hijriString = "14 Rabiulakhir 1448 H"; 
+      
+      try {
+        // Array nama bulan Hijriah manual agar tidak crash/salah baca di Smart TV
+        const bulanHijriah = [
+          'Muharram', 'Safar', 'Rabiulawal', 'Rabiulakhir',
+          'Jumadilawal', 'Jumadilakhir', 'Rajab', 'Sya\'ban',
+          'Ramadhan', 'Syawal', 'Zulkaidah', 'Zulhijah'
+        ];
+
+        // Minta format bulan berbentuk angka ('numeric') agar kompatibel dengan seluruh TV
+        const formatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic', { 
+          day: 'numeric', 
+          month: 'numeric', 
+          year: 'numeric' 
+        });
+        
+        const parts = formatter.formatToParts(now);
+        let hDay = parts.find(p => p.type === 'day')?.value;
+        let hMonthIdx = parseInt(parts.find(p => p.type === 'month')?.value, 10) - 1;
+        let hYear = parts.find(p => p.type === 'year')?.value;
+
+        if (hDay && !isNaN(hMonthIdx) && hYear && bulanHijriah[hMonthIdx]) {
+          hijriString = `${hDay} ${bulanHijriah[hMonthIdx]} ${hYear} H`;
+        }
+      } catch (err) {
+        console.warn("Gagal konversi Hijriah bawaan TV, menggunakan fallback.");
+      }
+
+      document.getElementById('disp-date-full').innerText = `${dayName}, ${dayNum} ${monthName} ${year} | ${hijriString}`;
+    }
+
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('main-digital-clock').innerText = 
+        `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      const ramadhanTarget = new Date('2027-02-08T00:00:00');
+      const diffDays = Math.ceil((ramadhanTarget - now) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays > 0) {
+        document.getElementById('ramadhan-countdown-text').innerText = `${diffDays} HARI MENUJU BULAN RAMADHAN 1448 H`;
+      } else if (diffDays === 0) {
+        document.getElementById('ramadhan-countdown-text').innerText = `MARHABAN YA RAMADHAN 1448 H`;
+      } else {
+        document.getElementById('ramadhan-countdown-text').innerText = `BULAN RAMADHAN 1448 H TELAH TIBA`;
+      }
+
+      const prayerList = [
+        { key: 'imsak', name: 'IMSAK', time: appConfig.prayerTimes.imsak },
+        { key: 'subuh', name: 'SUBUH', time: appConfig.prayerTimes.subuh },
+        { key: 'syuruk', name: 'SYURUQ', time: appConfig.prayerTimes.syuruk },
+        { key: 'dzuhur', name: 'DZUHUR', time: appConfig.prayerTimes.dzuhur },
+        { key: 'ashar', name: 'ASHAR', time: appConfig.prayerTimes.ashar },
+        { key: 'maghrib', name: 'MAGHRIB', time: appConfig.prayerTimes.maghrib },
+        { key: 'isya', name: 'ISYA', time: appConfig.prayerTimes.isya }
+      ];
+
+      let nextPrayer = null;
+      let targetDate = null;
+
+      for (const p of prayerList) {
+        if (!p.time) continue;
+        const [pHour, pMin] = p.time.split(':').map(Number);
+        const pDate = new Date(now);
+        pDate.setHours(pHour, pMin, 0, 0);
+
+        if (pDate > now) {
+          nextPrayer = p; targetDate = pDate; break;
+        }
+      }
+
+      if (!nextPrayer) {
+        nextPrayer = prayerList[1];
+        const [pHour, pMin] = nextPrayer.time.split(':').map(Number);
+        targetDate = new Date(now);
+        targetDate.setDate(targetDate.getDate() + 1);
+        targetDate.setHours(pHour, pMin, 0, 0);
+      }
+
+      if (targetDate) {
+        const diffSec = Math.floor((targetDate - now) / 1000);
+        const h = String(Math.floor(diffSec / 3600)).padStart(2, '0');
+        const m = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
+        const s = String(diffSec % 60).padStart(2, '0');
+        document.getElementById('countdown-label').innerText = `MENUJU ${nextPrayer.name} -${h}:${m}:${s}`;
+      }
+
+      // --- LOGIK TAMPILAN IMAM HARIAN PERMANEN ---
+      let currentYear = now.getFullYear();
+      let currentMonth = String(now.getMonth() + 1).padStart(2, '0');
+      let currentDay = String(now.getDate()).padStart(2, '0');
+      let todayString = `${currentYear}-${currentMonth}-${currentDay}`;
+
+      let scheduleToday = appConfig.imamSchedules.find(s => s.date === todayString);
+
+      let dzuhurName = (scheduleToday && scheduleToday.dzuhur) ? scheduleToday.dzuhur : "Belum Terjadwal";
+      let asharName = (scheduleToday && scheduleToday.ashar) ? scheduleToday.ashar : "Belum Terjadwal";
+      let haditsName = (scheduleToday && scheduleToday.haditsAshar) ? scheduleToday.haditsAshar : "";
+
+      document.getElementById('disp-imam-dzuhur').innerText = `IMAM DZUHUR: ${dzuhurName}`;
+      
+      // Jika ada petugas hadits yang diinput, gabungkan di sebelah nama Imam Ashar
+      if (haditsName !== "") {
+         document.getElementById('disp-imam-ashar').innerHTML = `IMAM ASHAR: ${asharName} <span class="mx-2 text-white/30">|</span> <i class="fa-solid fa-book-open text-masjid-gold mr-1"></i> HADITS: ${haditsName}`;
+      } else {
+         document.getElementById('disp-imam-ashar').innerText = `IMAM ASHAR: ${asharName}`;
+      }
+      // -----------------------------------------------------------
+
+      prayerList.forEach(p => {
+        const rowEl = document.getElementById(`item-${p.key}`);
+        if (!rowEl) return;
+        
+        if (p.key === nextPrayer.key) {
+          rowEl.className = 'flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-masjid-gold text-black shadow-[0_0_30px_rgba(255,200,44,0.7)] transition-all scale-[1.03] border-none font-bold z-10';
+          rowEl.querySelector('div:first-child').className = 'flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-black';
+          rowEl.querySelector('i').className = rowEl.querySelector('i').className.replace('text-blue-300', 'text-black');
+          rowEl.querySelector('div:last-child').className = 'font-display text-2xl 2xl:text-3xl font-black text-black';
+        } else {
+          rowEl.className = 'flex items-center justify-between px-5 py-2 2xl:px-7 2xl:py-3 rounded-full bg-[#06152a]/65 border border-white/10 transition-all scale-100 backdrop-blur-sm z-0';
+          rowEl.querySelector('div:first-child').className = 'flex items-center gap-3 2xl:gap-4 text-lg 2xl:text-xl font-bold tracking-wider uppercase text-white';
+          if (!rowEl.querySelector('i').className.includes('text-blue-300')) {
+             rowEl.querySelector('i').className = rowEl.querySelector('i').className.replace('text-black', 'text-blue-300');
+          }
+          rowEl.querySelector('div:last-child').className = 'font-display text-2xl 2xl:text-3xl font-black text-white';
+        }
+      });
+    }
+
+    function openSettingsModal() {
+      document.getElementById('input-city-id').value = appConfig.cityId;
+      document.getElementById('input-mosque-name').value = appConfig.mosqueName;
+      document.getElementById('input-mosque-address').value = appConfig.address;
+      
+      renderImamSettings();
+
+      document.getElementById('input-event-title').value = appConfig.eventTitle;
+      document.getElementById('input-event-time').value = appConfig.eventTime;
+      document.getElementById('input-event-speaker').value = appConfig.eventSpeaker;
+      document.getElementById('input-marquee').value = appConfig.marqueeText;
+
+      const modal = document.getElementById('settings-modal');
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+    }
+
+    function closeSettingsModal() {
+      const modal = document.getElementById('settings-modal');
+      modal.classList.add('hidden'); modal.classList.remove('flex');
+    }
+
+    function saveSettings() {
+      const newCityId = document.getElementById('input-city-id').value;
+      appConfig.mosqueName = document.getElementById('input-mosque-name').value.trim();
+      appConfig.address = document.getElementById('input-mosque-address').value.trim();
+      
+      const newSchedules = [];
+      const rows = document.querySelectorAll('.imam-row');
+      rows.forEach(row => {
+        const date = row.querySelector('.input-imam-date').value;
+        const dzuhur = row.querySelector('.input-imam-dzuhur').value.trim();
+        const ashar = row.querySelector('.input-imam-ashar').value.trim();
+        const haditsAshar = row.querySelector('.input-hadits-ashar').value.trim();
+        
+        if (date) {
+          newSchedules.push({ date, dzuhur, ashar, haditsAshar });
+        }
+      });
+      appConfig.imamSchedules = newSchedules;
+
+      appConfig.eventTitle = document.getElementById('input-event-title').value.trim();
+      appConfig.eventTime = document.getElementById('input-event-time').value.trim();
+      appConfig.eventSpeaker = document.getElementById('input-event-speaker').value.trim();
+      appConfig.marqueeText = document.getElementById('input-marquee').value.trim();
+
+      if (newCityId !== appConfig.cityId) {
+        appConfig.cityId = newCityId;
+        fetchMyQuranAPI(appConfig.cityId);
+      }
+
+      localStorage.setItem('mosque_config_v8', JSON.stringify(appConfig));
+      renderDOMConfig();
+      updateClocks(); 
+      closeSettingsModal();
+    }
+
+    window.onload = function() {
+      createStars();
+      loadSavedConfig();
+      const now = new Date();
+      updateDateDisplay(now);
+      fetchMyQuranAPI(appConfig.cityId);
+      
+      setInterval(updateClocks, 1000);
+      setInterval(() => { updateDateDisplay(new Date()); }, 60000);
+      setInterval(() => { fetchMyQuranAPI(appConfig.cityId); }, 1000 * 60 * 60 * 6);
+    };
+  </script>
+</body>
+</html>
